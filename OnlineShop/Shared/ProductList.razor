@@ -1,0 +1,36 @@
+﻿@using OnlineShop.Models
+@using OnlineShop.Services
+@inject CartService CartService
+<h3>ProductList</h3>
+
+
+@foreach (var product in Products)
+{
+    <div class="card w-25">
+        <div class="card-body">
+            <h5 class="card-title">@product.Name</h5>
+            <p class="card-text">@product.Description</p>
+            <blockquote class="card-text">$@product.Price</blockquote>
+            @if (DisplayBuyButton)
+            {
+                <button class="btn btn-primary" type="button" @onclick="() => Buy(product.Id)">Buy</button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    //EditorRequired to demonstrate that you can have multiple attributes to a property, just like vanilla C#
+    //The EditorRequired is a new feature in .NET 6 that will mark the property as required, if you don't pass a value to that property, Visual Studio will raise a compile error.
+    [EditorRequired]
+    //The Parameter attribute will mark its below property as an input of your component
+    [Parameter] 
+    public List<Product> Products { get; set; } = new();
+    [Parameter]
+    public bool DisplayBuyButton { get; set; }
+
+    private void Buy(Guid productId)
+    {
+        CartService.AddProductToCart(productId);
+    }
+}
