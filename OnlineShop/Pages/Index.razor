@@ -1,0 +1,12 @@
+﻿@page "/"
+@using OnlineShop.Models
+@using OnlineShop.Services
+
+<PageTitle>Index</PageTitle>
+
+@code {
+    public List<Product> Products { get; set; } = ProductProviderService.Products.ToList();
+    public int x = 10;
+}
+
+<ProductList Products="Products" DisplayBuyButton="true"></ProductList>
